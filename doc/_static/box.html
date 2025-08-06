@@ -1,57 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="code_style.css" type="text/css" />
+        <script src="https://cdn.jsdelivr.net/pyodide/v0.27.4/full/pyodide.js"></script>
 
-  <head>
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.4/full/pyodide.js"></script>
-  </head>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js"></script>
+    </head>
 
-  <body>
-    <p>
-      You can execute any Python code. Just enter something in the box below and
-      click the button.
-    </p>
-    <input id="code" style="width: 90%;" value="" />
-    <button onclick="evaluatePython()">Run</button>
-    <br />
-    <br />
-    <div>Output:</div>
-    <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+    <body>
+        <p>
+            You can write and execute Python code in the REPL. Just enter
+            something in the box below and click "Run" or press &#x21E7 + &#x23CE.
+            You can also access past commands using the up and down arrow keys.
+        </p>
+        <br />
+        <br />
+        <div>Output:</div>
+        <div id="output-box" style="height: 300px; width: 100%; overflow: scroll"></div>
+        <div>
+            <textarea id="code" style="width: 85%" rows="3"></textarea>
+            <button onclick="evaluatePython()">Run (&#x21E7+&#x23CE)</button>
+        </div>
+        
 
-
-    <script>
-      const output = document.getElementById("output");
-      const code = document.getElementById("code");
-
-      function addToOutput(s) {
-        output.value += ">>> " + code.value + "\n" + s + "\n";
-      }
-
-      output.value = "Initializing...\n";
-      // init Pyodide
-      async function main() {
-        let pyodide = await loadPyodide();
-        await pyodide.loadPackage("micropip");
-        const micropip = pyodide.pyimport("micropip");
-        await micropip.install("https://pynapple-org.github.io/pynapple-learn/_static/pynapple-0.8.5-py3-none-any.whl");
-
-        pyodide.runPython(`
-            import numpy as np
-            import pynapple as nap
-            `);
-        output.value += "Ready!\n";
-        return pyodide;
-      }
-      let pyodideReadyPromise = main();
-
-      async function evaluatePython() {
-        let pyodide = await pyodideReadyPromise;
-        try {
-          let out = pyodide.runPython(code.value);
-          addToOutput(out);
-        } catch (err) {
-          addToOutput(err);
-        }
-      }
-    </script>
-  </body>
+        <script src="script.js"></script>
+    </body>
 </html>

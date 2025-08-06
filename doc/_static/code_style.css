@@ -1,0 +1,22 @@
+.output-header {
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.output-text {
+    color: #333;
+    font-family: monospace;
+}
+
+.output-error {
+    color: red;
+    font-family: monospace;
+}
+
+#output-box {
+    width: 100%;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
